@@ -14,17 +14,22 @@ import Data.Maybe (Maybe(..))
 import DOM (DOM())
 import DOM.Node.Types (Element())
 
+import Partial (crashWith)
+
 import React (ReactElement, ReactElementImpl(..), ReactElementRaw(), ReactComponent(), TaggedReactElement(..))
 
 -- | Render a React element in a document element. Returns Nothing for stateless components.
-render :: forall eff. Partial => ReactElement -> Element -> Eff (dom :: DOM | eff) (Maybe ReactComponent)
+render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) (Maybe ReactComponent)
 render (ReactElement [StaticElement e] _) = runFn4 renderFn Nothing Just e
+render _ = crashWith "render must be given a single top-level element"
 
-renderToString :: Partial => ReactElement -> String
+renderToString :: ReactElement -> String
 renderToString (ReactElement [StaticElement e] _) = renderToStringImpl e
+renderToString _ = crashWith "renderToString must be given a single top-level element"
 
 renderToStaticMarkup :: Partial => ReactElement -> String
 renderToStaticMarkup (ReactElement [StaticElement e] _) = renderToStaticMarkupImpl e
+renderToStaticMarkup _ = crashWith "renderToStaticMarkup must be given a single top-level element"
 
 foreign import renderFn
   :: forall eff. Fn4 (Maybe ReactComponent)
