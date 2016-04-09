@@ -29,6 +29,6 @@ function findDOMNode(component) {
 }
 exports.findDOMNode = findDOMNode;
 
-exports.renderToString = ReactDOMServer.renderToString;
+exports.renderToStringImpl = ReactDOMServer.renderToString;
 
-exports.renderToStaticMarkup = ReactDOMServer.renderToStaticMarkup;
+exports.renderToStaticMarkupImpl = ReactDOMServer.renderToStaticMarkup;
