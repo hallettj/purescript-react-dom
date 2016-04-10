@@ -19,11 +19,11 @@ import Partial (crashWith)
 import React (ReactElement, ReactElementImpl(..), ReactElementRaw(), ReactComponent(), TaggedReactElement(..))
 
 -- | Render a React element in a document element. Returns Nothing for stateless components.
-render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) (Maybe ReactComponent)
+render :: forall eff. Partial => ReactElement -> Element -> Eff (dom :: DOM | eff) (Maybe ReactComponent)
 render (ReactElement [StaticElement e] _) = runFn4 renderFn Nothing Just e
 render _ = crashWith "render must be given a single top-level element"
 
-renderToString :: ReactElement -> String
+renderToString :: Partial => ReactElement -> String
 renderToString (ReactElement [StaticElement e] _) = renderToStringImpl e
 renderToString _ = crashWith "renderToString must be given a single top-level element"
 
